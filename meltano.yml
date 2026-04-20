@@ -1,0 +1,41 @@
+version: 1
+default_environment: dev
+project_id: tap-metabase
+
+plugins:
+  extractors:
+    - name: tap-metabase
+      namespace: tap_metabase
+      pip_url: -e .
+      executable: tap-metabase
+      capabilities:
+        - state
+        - catalog
+        - discover
+      settings:
+        - name: host
+          kind: string
+          label: Metabase Host
+          description: Base Metabase host URL, for example https://your-company.metabaseapp.com
+        - name: api_key
+          kind: password
+          label: Metabase API Key
+          sensitive: true
+        - name: start_date
+          kind: date_iso8601
+          label: Start date for incremental streams
+        - name: endpoint_groups
+          kind: array
+          label: Optional endpoint groups to enable
+        - name: timeout_seconds
+          kind: integer
+          label: Request timeout in seconds
+        - name: max_retries
+          kind: integer
+          label: Max retries for retriable errors
+        - name: backoff_factor
+          kind: integer
+          label: Backoff factor for retries
+        - name: verify_ssl
+          kind: boolean
+          label: Verify TLS certificates

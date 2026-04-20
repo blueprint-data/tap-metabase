@@ -1,0 +1,33 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "tap-metabase"
+version = "0.1.0"
+description = "Singer tap for extracting metadata from the Metabase API."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [
+  { name = "Blueprint Data" },
+]
+dependencies = [
+  "requests>=2.31.0",
+  "singer-sdk>=0.46.0",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.0.0",
+]
+
+[project.scripts]
+tap-metabase = "tap_metabase.tap:cli"
+
+[tool.hatch.build.targets.wheel]
+packages = ["tap_metabase"]
+
+[tool.pytest.ini_options]
+addopts = "-q"
+testpaths = ["tests"]
