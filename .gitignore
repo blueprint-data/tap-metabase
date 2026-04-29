@@ -1,9 +1,47 @@
+# Local secrets and environment files
+.env
+.env.*
+!.env.example
+
+# Python bytecode and caches
 config.json
 *.egg-info/
 __pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.hypothesis/
+
+# Test and coverage artifacts
+.coverage
+.coverage.*
+htmlcov/
+
+# Virtual environments
 .venv/
+venv/
+env/
+ENV/
+
+# Build and packaging artifacts
+build/
 dist/
+site/
+*.egg-info/
+.eggs/
+pip-wheel-metadata/
+
+# Tooling and local state
 .meltano/
+.tox/
+.nox/
+
+# OS/editor noise
+.DS_Store
+.idea/
+.vscode/
 catalog.json
 catalog_run.json
 output.jsonl
