@@ -4,6 +4,8 @@
 !.env.example
 
 # Python bytecode and caches
+config.json
+*.egg-info/
 __pycache__/
 *.py[cod]
 *$py.class
@@ -40,3 +42,7 @@ pip-wheel-metadata/
 .DS_Store
 .idea/
 .vscode/
+catalog.json
+catalog_run.json
+output.jsonl
+*.jsonl
