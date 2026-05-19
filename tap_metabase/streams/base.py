@@ -8,6 +8,7 @@ from typing import Any
 import backoff
 from requests.exceptions import JSONDecodeError as RequestsJSONDecodeError
 from singer_sdk.exceptions import FatalAPIError
+from singer_sdk.exceptions import RetriableAPIError
 from singer_sdk.pagination import BasePageNumberPaginator
 from singer_sdk.streams import RESTStream
 
@@ -162,6 +163,15 @@ class MetabaseStream(RESTStream):
             if self.soft_fail:
                 self.logger.warning(
                     "Skipping soft-fail stream '%s': invalid JSON in response: %s",
+                    self.name,
+                    exc,
+                )
+                return
+            raise
+        except RetriableAPIError as exc:
+            if self.soft_fail:
+                self.logger.warning(
+                    "Skipping soft-fail stream '%s': retries exhausted: %s",
                     self.name,
                     exc,
                 )
