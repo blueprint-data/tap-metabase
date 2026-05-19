@@ -149,11 +149,11 @@ class MetabaseStream(RESTStream):
             self.logger.warning("Skipping optional stream '%s': %s", self.name, exc)
             return
         except FatalAPIError as exc:
-            response = getattr(exc, "response", None)
-            status_code = getattr(response, "status_code", None)
-            if self.soft_fail and status_code in self.soft_fail_statuses:
+            if self.soft_fail:
+                response = getattr(exc, "response", None)
+                status_code = getattr(response, "status_code", None)
                 self.logger.warning(
-                    "Skipping optional stream '%s': status=%s",
+                    "Skipping soft-fail stream '%s': status=%s",
                     self.name,
                     status_code,
                 )
