@@ -2,9 +2,11 @@
 
 from __future__ import annotations
 
+import json
 from typing import Any
 
 import backoff
+from requests.exceptions import JSONDecodeError as RequestsJSONDecodeError
 from singer_sdk.exceptions import FatalAPIError
 from singer_sdk.pagination import BasePageNumberPaginator
 from singer_sdk.streams import RESTStream
@@ -153,6 +155,15 @@ class MetabaseStream(RESTStream):
                     "Skipping optional stream '%s': status=%s",
                     self.name,
                     status_code,
+                )
+                return
+            raise
+        except (json.JSONDecodeError, RequestsJSONDecodeError) as exc:
+            if self.soft_fail:
+                self.logger.warning(
+                    "Skipping soft-fail stream '%s': invalid JSON in response: %s",
+                    self.name,
+                    exc,
                 )
                 return
             raise
